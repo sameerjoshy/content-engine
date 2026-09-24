@@ -1,55 +1,60 @@
 import { lazy, Suspense, useEffect } from 'react';
 import { BrowserRouter, Route, Routes, useNavigate } from 'react-router-dom';
 import { AuthProvider, useAuth } from './auth';
+import { isAgentPortal } from './brand';
 import Layout from './components/Layout';
 import Login from './screens/Login';
-import Profiles from './screens/Profiles';
-import NewArticle from './screens/NewArticle';
-import Workflow from './screens/Workflow';
-import Draft from './screens/Draft';
-import Studio from './screens/Studio';
-import Radar from './screens/Radar';
-import SeoAnalyzer from './screens/SeoAnalyzer';
-import Qualifier from './screens/Qualifier';
-import Diagnostic from './screens/Diagnostic';
-import Listener from './screens/Listener';
-import Sniper from './screens/Sniper';
-import IcpClarifier from './screens/IcpClarifier';
-import DealRoom from './screens/DealRoom';
-import Hygiene from './screens/Hygiene';
-import ForecastAnalyser from './screens/ForecastAnalyser';
-import WinLoss from './screens/WinLoss';
-import GoalIntegrity from './screens/GoalIntegrity';
-import ChurnRadar from './screens/ChurnRadar';
-import ExpansionRadar from './screens/ExpansionRadar';
-import SignalsScout from './screens/SignalsScout';
-import CompetitorIntel from './screens/CompetitorIntel';
-import PlanningCycle from './screens/PlanningCycle';
-import GoalDesigner from './screens/GoalDesigner';
-import MarketResearch from './screens/MarketResearch';
-import RoadmapAlign from './screens/RoadmapAlign';
-import CampaignBuilder from './screens/CampaignBuilder';
-import AccountPlanner from './screens/AccountPlanner';
-import AbmPlaybook from './screens/AbmPlaybook';
-import VideoOutreach from './screens/VideoOutreach';
-import PricingStrategist from './screens/PricingStrategist';
-import NegotiationCoach from './screens/NegotiationCoach';
-import OnboardingCoach from './screens/OnboardingCoach';
-import RenewalAnalyst from './screens/RenewalAnalyst';
-import CrossSellScout from './screens/CrossSellScout';
-import PipelineAuditor from './screens/PipelineAuditor';
-import Attribution from './screens/Attribution';
-import CompQuota from './screens/CompQuota';
-import WorkflowBuilder from './screens/WorkflowBuilder';
-import ChiefOfStaff from './screens/ChiefOfStaff';
-import ResearchReview from './screens/ResearchReview';
-import Privacy from './screens/Privacy';
-import Terms from './screens/Terms';
-import Engine from './screens/Engine';
-import Lobby from './screens/Lobby';
-import Space from './screens/Space';
 
+// Route-level code splitting — every screen loads on demand.
+const Profiles = lazy(() => import('./screens/Profiles'));
+const NewArticle = lazy(() => import('./screens/NewArticle'));
+const Workflow = lazy(() => import('./screens/Workflow'));
+const Draft = lazy(() => import('./screens/Draft'));
+const Studio = lazy(() => import('./screens/Studio'));
+const Radar = lazy(() => import('./screens/Radar'));
+const SeoAnalyzer = lazy(() => import('./screens/SeoAnalyzer'));
+const Qualifier = lazy(() => import('./screens/Qualifier'));
+const Diagnostic = lazy(() => import('./screens/Diagnostic'));
+const Listener = lazy(() => import('./screens/Listener'));
+const Sniper = lazy(() => import('./screens/Sniper'));
+const IcpClarifier = lazy(() => import('./screens/IcpClarifier'));
+const DealRoom = lazy(() => import('./screens/DealRoom'));
+const Hygiene = lazy(() => import('./screens/Hygiene'));
+const ForecastAnalyser = lazy(() => import('./screens/ForecastAnalyser'));
+const WinLoss = lazy(() => import('./screens/WinLoss'));
+const GoalIntegrity = lazy(() => import('./screens/GoalIntegrity'));
+const ChurnRadar = lazy(() => import('./screens/ChurnRadar'));
+const ExpansionRadar = lazy(() => import('./screens/ExpansionRadar'));
+const SignalsScout = lazy(() => import('./screens/SignalsScout'));
+const CompetitorIntel = lazy(() => import('./screens/CompetitorIntel'));
+const PlanningCycle = lazy(() => import('./screens/PlanningCycle'));
+const GoalDesigner = lazy(() => import('./screens/GoalDesigner'));
+const MarketResearch = lazy(() => import('./screens/MarketResearch'));
+const RoadmapAlign = lazy(() => import('./screens/RoadmapAlign'));
+const CampaignBuilder = lazy(() => import('./screens/CampaignBuilder'));
+const AccountPlanner = lazy(() => import('./screens/AccountPlanner'));
+const AbmPlaybook = lazy(() => import('./screens/AbmPlaybook'));
+const VideoOutreach = lazy(() => import('./screens/VideoOutreach'));
+const PricingStrategist = lazy(() => import('./screens/PricingStrategist'));
+const NegotiationCoach = lazy(() => import('./screens/NegotiationCoach'));
+const OnboardingCoach = lazy(() => import('./screens/OnboardingCoach'));
+const RenewalAnalyst = lazy(() => import('./screens/RenewalAnalyst'));
+const CrossSellScout = lazy(() => import('./screens/CrossSellScout'));
+const PipelineAuditor = lazy(() => import('./screens/PipelineAuditor'));
+const Attribution = lazy(() => import('./screens/Attribution'));
+const CompQuota = lazy(() => import('./screens/CompQuota'));
+const WorkflowBuilder = lazy(() => import('./screens/WorkflowBuilder'));
+const ChiefOfStaff = lazy(() => import('./screens/ChiefOfStaff'));
+const ResearchReview = lazy(() => import('./screens/ResearchReview'));
+const Privacy = lazy(() => import('./screens/Privacy'));
+const Terms = lazy(() => import('./screens/Terms'));
+const Engine = lazy(() => import('./screens/Engine'));
+const Lobby = lazy(() => import('./screens/Lobby'));
+const Space = lazy(() => import('./screens/Space'));
 const Showcase = lazy(() => import('./screens/Showcase'));
+const ContentLanding = lazy(() => import('./screens/ContentLanding'));
+
+const RouteFallback = <div className="container" style={{ paddingTop: 48 }}><span className="spinner" /></div>;
 
 function RequireAuth({ children }: { children: React.ReactNode }) {
   const { user, loading } = useAuth();
@@ -81,7 +86,7 @@ function HomeGate() {
   if (!user) {
     return (
       <Suspense fallback={<div className="container" style={{ paddingTop: 48 }}><span className="spinner" /></div>}>
-        <Showcase />
+        {isAgentPortal ? <Showcase /> : <ContentLanding />}
       </Suspense>
     );
   }
@@ -96,6 +101,7 @@ export default function App() {
   return (
     <AuthProvider>
       <BrowserRouter basename={import.meta.env.BASE_URL.replace(/\/$/, '')}>
+        <Suspense fallback={RouteFallback}>
         <Routes>
           <Route path="/login" element={<AuthGate />} />
           <Route path="/privacy" element={<Privacy />} />
@@ -518,6 +524,7 @@ export default function App() {
             }
           />
         </Routes>
+        </Suspense>
       </BrowserRouter>
     </AuthProvider>
   );

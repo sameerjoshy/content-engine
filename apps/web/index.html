@@ -12,11 +12,19 @@
     <title>Agent Portal — AI Content Production for GTM Teams</title>
     <script>
       // The Content Engine (apps.gtm-360.com/content-engine) and the Agent Portal
-      // (agents.gtm-360.com) share this build. Brand the tab by host.
+      // (agents.gtm-360.com) share this build. Brand + SEO by host.
       (function () {
-        if (location.hostname !== 'agents.gtm-360.com') {
-          document.title = 'Content Engine — GTM-360';
-        }
+        if (location.hostname === 'agents.gtm-360.com') return;
+        document.title = 'Content Engine — GTM-360';
+        var apply = function () {
+          var set = function (sel, attr, val) { var el = document.querySelector(sel); if (el) el.setAttribute(attr, val); };
+          set('link[rel="canonical"]', 'href', 'https://apps.gtm-360.com/content-engine/');
+          set('meta[property="og:site_name"]', 'content', 'Content Engine');
+          set('meta[property="og:title"]', 'content', 'Content Engine — GTM-360');
+          set('meta[name="description"]', 'content', 'The Content Engine turns a topic into a citable, fact-checked article in your brand voice — grounded in real research, then distributed to LinkedIn, YouTube, and Substack.');
+        };
+        if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', apply);
+        else apply();
       })();
     </script>
     <meta name="description" content="Agent Portal turns a topic into a citable, fact-checked article in your brand voice — grounded in real research, then distributed to LinkedIn, YouTube, and Substack. An outcome-driven AI agent engine for go-to-market teams." />
