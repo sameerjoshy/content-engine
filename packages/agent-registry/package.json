@@ -1,0 +1,12 @@
+{
+  "name": "@gtm360/agent-registry",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "main": "./src/index.ts",
+  "types": "./src/index.ts",
+  "exports": {
+    ".": "./src/index.ts"
+  },
+  "description": "GTM-360 Agent Engine — single source of truth for the outcome-driven agent catalog."
+}

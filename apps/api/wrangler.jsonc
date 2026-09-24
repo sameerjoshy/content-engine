@@ -1,0 +1,29 @@
+{
+  "$schema": "node_modules/wrangler/config-schema.json",
+  "name": "content-engine-api",
+  "main": "src/index.ts",
+  "compatibility_date": "2026-07-28",
+  "compatibility_flags": ["nodejs_compat"],
+  "workflows": [
+    {
+      "binding": "ARTICLE_WORKFLOW",
+      "name": "article-workflow",
+      "class_name": "ArticleWorkflow"
+    }
+  ],
+  "vars": {
+    "ENVIRONMENT": "production"
+  },
+  "services": [
+    {
+      "binding": "WORKER_SELF",
+      "service": "content-engine-api"
+    }
+  ],
+  "observability": {
+    "enabled": true
+  },
+  "triggers": {
+    "crons": ["0 3 * * *"]
+  }
+}

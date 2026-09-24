@@ -1,0 +1,60 @@
+# AI-aware robots.txt for content.gtm-360.com
+# Strategy: allow search engines + AI search-augmented crawlers (they drive
+# citations); deliberately allow AI training crawlers; block known aggressive
+# scrapers that waste bandwidth and offer no discovery value.
+
+# Default: allow everything (crawlable by any standard agent)
+User-agent: *
+Allow: /
+
+# --- AI search-augmented / answer crawlers (allow — these drive citations) ---
+User-agent: GPTBot
+Allow: /
+
+User-agent: ChatGPT-User
+Allow: /
+
+User-agent: Google-Extended
+Allow: /
+
+User-agent: ClaudeBot
+Allow: /
+
+User-agent: anthropic-ai
+Allow: /
+
+User-agent: Claude-Web
+Allow: /
+
+User-agent: PerplexityBot
+Allow: /
+
+User-agent: Bingbot
+Allow: /
+
+User-agent: Amazonbot
+Allow: /
+
+User-agent: Applebot
+Allow: /
+
+# --- Aggressive / low-value scrapers (block) ---
+User-agent: AhrefsBot
+Disallow: /
+
+User-agent: SemrushBot
+Disallow: /
+
+User-agent: DataForSeoBot
+Disallow: /
+
+User-agent: MJ12bot
+Disallow: /
+
+User-agent: DotBot
+Disallow: /
+
+User-agent: Barkrowler
+Disallow: /
+
+Sitemap: https://content.gtm-360.com/sitemap.xml

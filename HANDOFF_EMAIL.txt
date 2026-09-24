@@ -1,0 +1,77 @@
+Subject: Build Content Engine Tool - Complete Specification + Assets
+
+---
+
+Hi [Team Name/DeepSeek/OpenCode],
+
+We're building a content engine tool that lets creators iterate on content inputs (brand voice, ICP, research rules) and see output in real-time.
+
+WHAT WE'RE BUILDING:
+A tool that runs this flow in <10 minutes:
+1. User picks profile (e.g., "Thought Leader")
+2. User enters: topic, angle, depth
+3. System runs: research → write → edit
+4. User sees: draft at each stage
+5. User publishes to markdown/CMS
+
+WHY THIS MATTERS:
+Most content workflows are black boxes. Users don't see why output is generic, can't iterate easily, and don't understand which inputs matter. This tool fixes that with transparency and real-time iteration.
+
+TIMELINE:
+Week 1-2: Backend + CLI
+Week 2-3: Frontend
+Week 4: Polish + deploy
+Total: 3-4 weeks to MVP
+
+WHAT YOU'RE GETTING:
+📄 Complete specification (SUPER_PROMPT.md)
+🎨 Design system + tokens (DESIGN_SYSTEM_TOKENS.json)
+📋 Profile templates (PROFILES.yaml)
+📚 Example articles showing target tone (EXAMPLE_ARTICLES.md)
+📊 Sample data (existing-content.json)
+📖 README with quick start (README.md)
+✅ Developer checklist (DEVELOPER_CHECKLIST.md)
+📧 This handoff email
+
+All files are in: /tmp/content-engine/
+
+HOW TO START:
+1. Read README.md (5 minutes)
+2. Read SUPER_PROMPT.md (30 minutes)
+3. Review EXAMPLE_ARTICLES.md (10 minutes) — this shows what good output looks like
+4. Start building: Backend first (orchestrator + agents), then frontend
+
+KEY POINTS:
+- MVP = 5 agents (Angle Validator, Researcher, Spec Builder, Writer, Editor)
+- Not 10 agents. Just 5. Get those right first.
+- Test agents independently before wiring everything.
+- Each article ≈ $0.50-1.00 in LLM costs. Budget accordingly.
+- Log every LLM call (crucial for debugging).
+- Use EXAMPLE_ARTICLES.md as the tone template constantly.
+
+SUCCESS LOOKS LIKE:
+✓ User can run article from input to publish in <10 minutes
+✓ Draft improves measurably when user adjusts 1 input (e.g., tighter voice)
+✓ No hallucinations (research validator catches them)
+✓ Draft is 90%+ publishable
+✓ Frontend is intuitive (user doesn't need manual)
+
+ARCHITECTURE:
+Frontend (React) → API (Node/Python) → Orchestrator → LLM Agents → PostgreSQL
+
+All specs are in SUPER_PROMPT.md:
+- API endpoints (/run-article, /workflow-status, /publish)
+- Database schema
+- Each agent's input/output/instructions
+- UI/UX screens
+- Design tokens
+
+QUESTIONS?
+99% are answered in SUPER_PROMPT.md. If not:
+1. Check agent specifications
+2. Check API endpoints
+3. Look at EXAMPLE_ARTICLES.md for what good output looks like
+
+Let me know if you need anything else. Files are ready to go.
+
+[Your Name]

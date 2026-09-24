@@ -1,0 +1,221 @@
+﻿<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=1920, height=1080" />
+    <script src="https://cdn.jsdelivr.net/npm/gsap@3.14.2/dist/gsap.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/gsap@3.14.2/dist/TextPlugin.min.js"></script>
+    <style>
+      * { margin: 0; padding: 0; box-sizing: border-box; }
+      html, body { width: 1920px; height: 1080px; overflow: hidden; background: #050b0a; }
+      #root { position: relative; width: 1920px; height: 1080px; overflow: hidden; }
+      .clip { position: absolute; inset: 0; overflow: hidden; }
+
+      /* Background layers */
+      #bg { position: absolute; inset: 0; }
+      #glow {
+        position: absolute; inset: 0;
+        background:
+          radial-gradient(1000px 560px at 50% 30%, rgba(16, 185, 129, 0.20), transparent 62%),
+          radial-gradient(760px 460px at 82% 70%, rgba(14, 165, 233, 0.10), transparent 60%);
+      }
+
+      .gradient-text {
+        background: linear-gradient(90deg, #34d399 0%, #2dd4bf 100%);
+        -webkit-background-clip: text; background-clip: text; color: transparent;
+      }
+      .eyebrow { color: #34d399; font-size: 26px; font-weight: 700; letter-spacing: 0.24em; text-transform: uppercase; }
+      .h1 { color: #ffffff; font-size: 84px; font-weight: 800; letter-spacing: -0.03em; line-height: 1.08; }
+      .sub { color: rgba(255,255,255,0.66); font-size: 30px; line-height: 1.5; font-weight: 400; }
+
+      /* Scene 1 — Hook */
+      #s1 { position: absolute; inset: 0; display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center; }
+
+      /* Scene 2 — the question */
+      #s2 { position: absolute; inset: 0; display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center; }
+      #s2-qbox { background: rgba(16,185,129,0.08); border: 1.5px solid rgba(52,211,153,0.35); border-radius: 18px; padding: 40px 56px; max-width: 1500px; }
+      #s2-q { color: #ffffff; font-size: 52px; font-weight: 700; line-height: 1.2; }
+      #s2-qbox small { display: block; color: #d1fae5; font-size: 24px; font-weight: 400; margin-top: 16px; font-style: italic; }
+
+      /* Scene 3 — the one job */
+      #s3 { position: absolute; inset: 0; display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center; }
+      #s3-row { display: flex; gap: 40px; align-items: stretch; margin-top: 48px; }
+      .s3-card { width: 430px; background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.10); border-radius: 16px; padding: 32px 28px; text-align: left; }
+      .s3-card .n { color: #34d399; font-size: 22px; font-weight: 800; }
+      .s3-card .t { color: #ffffff; font-size: 30px; font-weight: 700; margin-top: 8px; }
+      .s3-card .d { color: rgba(255,255,255,0.6); font-size: 20px; margin-top: 10px; line-height: 1.5; }
+
+      /* Scene 4 — the three layers */
+      #s4 { position: absolute; inset: 0; display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center; }
+      #s4-layers { display: flex; flex-direction: column; gap: 18px; margin-top: 44px; width: 1300px; }
+      .s4-layer { display: flex; align-items: center; gap: 28px; background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.10); border-radius: 14px; padding: 26px 32px; }
+      .s4-layer .dot { width: 14px; height: 14px; border-radius: 50%; flex: none; }
+      .s4-layer .name { color: #ffffff; font-size: 32px; font-weight: 700; width: 250px; text-align: left; }
+      .s4-layer .desc { color: rgba(255,255,255,0.6); font-size: 22px; line-height: 1.4; text-align: left; }
+
+      /* Scene 5 — the fix plan */
+      #s5 { position: absolute; inset: 0; display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center; }
+      #s5-fixes { display: flex; gap: 24px; margin-top: 48px; }
+      .s5-fix { width: 350px; background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.10); border-top: 4px solid #34d399; border-radius: 14px; padding: 26px 24px; text-align: left; }
+      .s5-fix .prio { color: #34d399; font-size: 18px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.1em; }
+      .s5-fix .t { color: #ffffff; font-size: 26px; font-weight: 700; margin-top: 8px; line-height: 1.25; }
+      .s5-fix .m { color: rgba(255,255,255,0.55); font-size: 18px; margin-top: 10px; line-height: 1.45; }
+
+      /* Scene 6 — honest close */
+      #s6 { position: absolute; inset: 0; display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center; background: #050b0a; }
+      #s6-claim { color: #ffffff; font-size: 74px; font-weight: 800; letter-spacing: -0.03em; line-height: 1.1; }
+      #s6-sub { color: rgba(255,255,255,0.66); font-size: 28px; margin-top: 22px; }
+      #s6-honest { margin-top: 36px; color: rgba(255,255,255,0.45); font-size: 22px; font-style: italic; }
+      #s6-mark { margin-top: 44px; color: #34d399; font-size: 28px; font-weight: 700; letter-spacing: 0.2em; text-transform: uppercase; }
+
+      /* Brand bookend */
+      #brand { position: absolute; inset: 0; display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center; }
+      #brand-glow {
+        position: absolute;
+        width: 560px; height: 560px;
+        background: radial-gradient(circle, rgba(16,185,129,0.30) 0%, transparent 62%);
+        border-radius: 50%;
+      }
+      #brand-mark { position: relative; width: 200px; height: 200px; }
+      #brand-name { margin-top: 26px; font-size: 68px; font-weight: 800; color: #ffffff; letter-spacing: 0.02em; }
+      #brand-tag { margin-top: 12px; color: #34d399; font-size: 27px; font-weight: 700; letter-spacing: 0.24em; text-transform: uppercase; }
+    </style>
+  </head>
+  <body>
+    <div id="root" data-composition-id="main" data-start="0" data-width="1920" data-height="1080" data-duration="32">
+
+      <div id="bg" class="clip" data-start="0" data-duration="32" data-track-index="0">
+        <div id="glow"></div>
+      </div>
+
+      <!-- Scene 1 — Brand bookend: GTM-360 · The Revenue Operating System -->
+      <div id="brand" class="clip" data-start="0" data-duration="5.5" data-track-index="1">
+        <div id="brand-glow"></div>
+        <img id="brand-mark" src="assets/gtm360-mark.png" alt="GTM-360" />
+        <div id="brand-name">GTM-360</div>
+        <div id="brand-tag">The Revenue Operating System</div>
+      </div>
+
+      <!-- Scene 2 — Hook -->
+      <div id="s1" class="clip" data-start="5.5" data-duration="5.0" data-track-index="2">
+        <div class="eyebrow">GTM-360 · The Revenue Operating System</div>
+        <div class="h1" id="s1-h1">Your buyers ask an AI.<br /><span class="gradient-text">Are you the answer?</span></div>
+        <div class="sub" id="s1-sub">Or does it recommend your competitor?</div>
+      </div>
+
+      <!-- Scene 2 — the question they're asking -->
+      <div id="s2" class="clip" data-start="10.5" data-duration="5.5" data-track-index="2">
+        <div class="eyebrow">They're searching. They're asking.</div>
+        <div id="s2-qbox">
+          <div id="s2-q">"Which GTM consulting firm actually fixes<br />pipeline forecasting?"</div>
+          <small>— a question your buyer asks an AI assistant right now</small>
+        </div>
+      </div>
+
+      <!-- Scene 3 — the one job -->
+      <div id="s3" class="clip" data-start="16.0" data-duration="5.0" data-track-index="3">
+        <div class="eyebrow">The SEO Analyzer · one job</div>
+        <div class="h1" id="s3-h1" style="font-size:64px">Show up in <span class="gradient-text">the answers that win.</span></div>
+        <div id="s3-row">
+          <div class="s3-card"><div class="n">01</div><div class="t">What they ask</div><div class="d">Maps the real questions your buyers type into search and AI.</div></div>
+          <div class="s3-card"><div class="n">02</div><div class="t">Are you the answer?</div><div class="d">Shows whether your site is findable, readable, and ready for AI systems.</div></div>
+          <div class="s3-card"><div class="n">03</div><div class="t">The fix plan</div><div class="d">Know exactly what to fix this week — and who owns it.</div></div>
+        </div>
+      </div>
+
+      <!-- Scene 4 — the three layers -->
+      <div id="s4" class="clip" data-start="21.0" data-duration="5.0" data-track-index="4">
+        <div class="eyebrow">Where most sites lose</div>
+        <div class="h1" id="s4-h1" style="font-size:56px">Three layers. One weak one blocks everything.</div>
+        <div id="s4-layers">
+          <div class="s4-layer"><span class="dot" style="background:#10b981"></span><span class="name">Discovery</span><span class="desc">Can AI crawlers find you at all?</span></div>
+          <div class="s4-layer"><span class="dot" style="background:#f59e0b"></span><span class="name">Parsability</span><span class="desc">Can AI extract your answer? Most sites fail here.</span></div>
+          <div class="s4-layer"><span class="dot" style="background:#3b82f6"></span><span class="name">Capability</span><span class="desc">Can agents act on your site — the future layer.</span></div>
+        </div>
+      </div>
+
+      <!-- Scene 5 — the fix plan -->
+      <div id="s5" class="clip" data-start="26.0" data-duration="3.5" data-track-index="5">
+        <div class="eyebrow">What you get</div>
+        <div class="h1" id="s5-h1" style="font-size:56px">Know exactly what to fix <span class="gradient-text">this week.</span></div>
+        <div id="s5-fixes">
+          <div class="s5-fix"><div class="prio">P1 · This week</div><div class="t">Fix semantic headings</div><div class="m">Wins the answers your buyers ask for.</div></div>
+          <div class="s5-fix"><div class="prio">P1 · This week</div><div class="t">Add FAQ schema</div><div class="m">Makes your answers easy to quote.</div></div>
+          <div class="s5-fix"><div class="prio">P2 · Next</div><div class="t">Build comparison pages</div><div class="m">Wins the queries your competitors own.</div></div>
+        </div>
+      </div>
+
+      <!-- Scene 6 — the close -->
+      <div id="s6" class="clip" data-start="29.5" data-duration="2.5" data-track-index="6">
+        <div id="s6-claim">Be the answer <span class="gradient-text">when the question matters.</span></div>
+        <div id="s6-sub">The SEO Analyzer · part of the Marketing engine</div>
+        <div id="s6-honest">Show up where it matters most.</div>
+        <div id="s6-mark">GTM-360 · We build your revenue system. Then it keeps running.</div>
+      </div>
+
+      <!-- Audio -->
+      <audio id="bg-music" data-start="0" data-duration="32" data-track-index="10" data-volume="0.30" src="assets/music/happy-beats-business-moves-vol-12-by-ende-dot-app.mp3"></audio>
+      <audio id="sfx-intro" data-start="0.6" data-duration="0.18" data-track-index="11" data-volume="0.6" src="assets/sfx/impact/impactSoft_medium_001.ogg"></audio>
+      <audio id="sfx-question" data-start="10.6" data-duration="0.12" data-track-index="11" data-volume="0.5" src="assets/sfx/interface/drop_001.ogg"></audio>
+      <audio id="sfx-job" data-start="16.1" data-duration="0.11" data-track-index="12" data-volume="0.5" src="assets/sfx/interface/drop_001.ogg"></audio>
+      <audio id="sfx-layer1" data-start="22.0" data-duration="0.11" data-track-index="12" data-volume="0.5" src="assets/sfx/interface/click_001.ogg"></audio>
+      <audio id="sfx-layer2" data-start="22.6" data-duration="0.11" data-track-index="12" data-volume="0.5" src="assets/sfx/interface/click_001.ogg"></audio>
+      <audio id="sfx-layer3" data-start="23.2" data-duration="0.11" data-track-index="12" data-volume="0.5" src="assets/sfx/interface/click_001.ogg"></audio>
+      <audio id="sfx-fix" data-start="27.0" data-duration="0.11" data-track-index="12" data-volume="0.5" src="assets/sfx/interface/drop_001.ogg"></audio>
+      <audio id="sfx-bell" data-start="30.0" data-duration="1.48" data-track-index="13" data-volume="0.7" src="assets/sfx/impact/impactBell_heavy_000.ogg"></audio>
+    </div>
+
+    <script>
+      gsap.registerPlugin(TextPlugin);
+      const tl = gsap.timeline({ paused: true });
+
+      /* Scene 1 — brand bookend */
+      tl.fromTo('#glow', { opacity: 0.35 }, { opacity: 1, duration: 2.0, ease: 'sine.out' }, 0);
+      tl.fromTo('#brand-glow', { scale: 0.7, opacity: 0 }, { scale: 1, opacity: 1, duration: 0.7, ease: 'power3.out' }, 0.2);
+      tl.fromTo('#brand-mark', { scale: 0.8, opacity: 0 }, { scale: 1, opacity: 1, duration: 0.6, ease: 'power3.out' }, 0.4);
+      tl.fromTo('#brand-name', { y: 18, opacity: 0 }, { y: 0, opacity: 1, duration: 0.5, ease: 'power3.out' }, 1.1);
+      tl.fromTo('#brand-tag', { opacity: 0 }, { opacity: 1, duration: 0.5, ease: 'sine.out' }, 1.7);
+
+      /* Scene 2 — hook */
+      tl.fromTo('#s1 .eyebrow', { y: 18, opacity: 0 }, { y: 0, opacity: 1, duration: 0.5, ease: 'power3.out' }, 5.6);
+      tl.fromTo('#s1-h1', { y: 36, opacity: 0 }, { y: 0, opacity: 1, duration: 0.6, ease: 'power3.out' }, 6.2);
+      tl.fromTo('#s1-sub', { opacity: 0 }, { opacity: 1, duration: 0.5, ease: 'sine.out' }, 7.2);
+
+      /* Scene 2 — the question */
+      tl.fromTo('#s2 .eyebrow', { y: 16, opacity: 0 }, { y: 0, opacity: 1, duration: 0.5, ease: 'power3.out' }, 10.6);
+      tl.fromTo('#s2-qbox', { scale: 0.96, opacity: 0 }, { scale: 1, opacity: 1, duration: 0.6, ease: 'power3.out' }, 10.9);
+      tl.fromTo('#s2-q', { y: 10, opacity: 0 }, { y: 0, opacity: 1, duration: 0.55, ease: 'sine.out' }, 11.3);
+      tl.fromTo('#s2-qbox small', { opacity: 0 }, { opacity: 1, duration: 0.5, ease: 'sine.out' }, 12.2);
+
+      /* Scene 3 — the one job */
+      tl.fromTo('#s3 .eyebrow', { y: 16, opacity: 0 }, { y: 0, opacity: 1, duration: 0.5, ease: 'power3.out' }, 16.1);
+      tl.fromTo('#s3-h1', { y: 28, opacity: 0 }, { y: 0, opacity: 1, duration: 0.6, ease: 'power3.out' }, 16.4);
+      tl.fromTo('.s3-card:nth-child(1)', { y: 24, opacity: 0 }, { y: 0, opacity: 1, duration: 0.55, ease: 'power3.out' }, 17.0);
+      tl.fromTo('.s3-card:nth-child(2)', { y: 24, opacity: 0 }, { y: 0, opacity: 1, duration: 0.55, ease: 'power3.out' }, 17.7);
+      tl.fromTo('.s3-card:nth-child(3)', { y: 24, opacity: 0 }, { y: 0, opacity: 1, duration: 0.55, ease: 'power3.out' }, 18.4);
+
+      /* Scene 4 — the three layers */
+      tl.fromTo('#s4 .eyebrow', { y: 16, opacity: 0 }, { y: 0, opacity: 1, duration: 0.5, ease: 'power3.out' }, 21.1);
+      tl.fromTo('#s4-h1', { y: 24, opacity: 0 }, { y: 0, opacity: 1, duration: 0.6, ease: 'power3.out' }, 21.4);
+      tl.fromTo('.s4-layer:nth-child(1)', { x: -24, opacity: 0 }, { x: 0, opacity: 1, duration: 0.5, ease: 'power3.out' }, 22.0);
+      tl.fromTo('.s4-layer:nth-child(2)', { x: -24, opacity: 0 }, { x: 0, opacity: 1, duration: 0.5, ease: 'power3.out' }, 22.6);
+      tl.fromTo('.s4-layer:nth-child(3)', { x: -24, opacity: 0 }, { x: 0, opacity: 1, duration: 0.5, ease: 'power3.out' }, 23.2);
+
+      /* Scene 5 — the fix plan */
+      tl.fromTo('#s5 .eyebrow', { y: 16, opacity: 0 }, { y: 0, opacity: 1, duration: 0.5, ease: 'power3.out' }, 26.1);
+      tl.fromTo('#s5-h1', { y: 24, opacity: 0 }, { y: 0, opacity: 1, duration: 0.6, ease: 'power3.out' }, 26.4);
+      tl.fromTo('.s5-fix:nth-child(1)', { y: 20, opacity: 0 }, { y: 0, opacity: 1, duration: 0.5, ease: 'power3.out' }, 27.0);
+      tl.fromTo('.s5-fix:nth-child(2)', { y: 20, opacity: 0 }, { y: 0, opacity: 1, duration: 0.5, ease: 'power3.out' }, 27.4);
+      tl.fromTo('.s5-fix:nth-child(3)', { y: 20, opacity: 0 }, { y: 0, opacity: 1, duration: 0.5, ease: 'power3.out' }, 27.8);
+
+      /* Scene 6 — honest close */
+      tl.fromTo('#s6-claim', { y: 24, opacity: 0 }, { y: 0, opacity: 1, duration: 0.6, ease: 'power3.out' }, 29.6);
+      tl.fromTo('#s6-sub', { opacity: 0 }, { opacity: 1, duration: 0.5, ease: 'sine.out' }, 30.0);
+      tl.fromTo('#s6-honest', { opacity: 0 }, { opacity: 1, duration: 0.5, ease: 'sine.out' }, 30.4);
+      tl.fromTo('#s6-mark', { scale: 1.05, opacity: 0 }, { scale: 1, opacity: 1, duration: 0.6, ease: 'power2.out' }, 30.8);
+
+      window.__timelines['main'] = tl;
+      tl.seek(0);
+    </script>
+  </body>
+</html>

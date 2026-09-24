@@ -1,0 +1,202 @@
+﻿<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=1920, height=1080" />
+    <script src="https://cdn.jsdelivr.net/npm/gsap@3.14.2/dist/gsap.min.js"></script>
+    <style>
+      * { margin: 0; padding: 0; box-sizing: border-box; }
+      html, body { width: 1920px; height: 1080px; overflow: hidden; background: #050b0a; }
+
+      #root { position: relative; width: 1920px; height: 1080px; overflow: hidden; }
+      .clip { position: absolute; inset: 0; overflow: hidden; }
+
+      /* â”€â”€ Shared typography â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
+      .eyebrow { font-size: 30px; font-weight: 700; letter-spacing: 0.22em; text-transform: uppercase; }
+      .gradient-text {
+        background: linear-gradient(90deg, #34d399 0%, #2dd4bf 100%);
+        -webkit-background-clip: text; background-clip: text; color: transparent;
+      }
+      .stat-value { font-variant-numeric: tabular-nums; }
+
+      /* â”€â”€ Scene 1 â€” Hook â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
+      #scene1 { background: #050b0a; }
+      #s1-glow {
+        position: absolute; inset: 0;
+        background:
+          radial-gradient(900px 500px at 50% 30%, rgba(16, 185, 129, 0.22), transparent 65%),
+          radial-gradient(700px 420px at 78% 12%, rgba(14, 165, 233, 0.12), transparent 60%);
+      }
+      #s1-veil { position: absolute; inset: 0; background: linear-gradient(180deg, transparent 0%, rgba(5,11,10,0.6) 100%); }
+      #s1-wrap {
+        position: absolute; inset: 0; display: flex; flex-direction: column;
+        align-items: center; justify-content: center; text-align: center;
+      }
+      #s1-eyebrow { color: #34d399; margin-bottom: 36px; }
+      #s1-h1 { color: #ffffff; font-size: 108px; font-weight: 800; letter-spacing: -0.03em; line-height: 1.04; }
+      #s1-stats { display: flex; gap: 56px; margin-top: 64px; }
+      .stat { display: flex; align-items: baseline; gap: 10px; }
+      .stat-value { color: #34d399; font-size: 46px; font-weight: 800; }
+      .stat-label { color: rgba(255,255,255,0.78); font-size: 28px; font-weight: 400; }
+
+      /* â”€â”€ Scene 2 â€” Engine loop â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
+      #scene2 { background: #050b0a; }
+      #s2-glow {
+        position: absolute; inset: 0;
+        background:
+          radial-gradient(1100px 600px at 50% 45%, rgba(16, 185, 129, 0.14), transparent 60%),
+          radial-gradient(800px 500px at 20% 80%, rgba(124, 58, 237, 0.10), transparent 60%);
+      }
+      #s2-wrap {
+        position: absolute; inset: 0; display: flex; flex-direction: column;
+        align-items: center; justify-content: center;
+      }
+      #s2-head { text-align: center; margin-bottom: 52px; }
+      #s2-title { color: #ffffff; font-size: 76px; font-weight: 800; letter-spacing: -0.02em; }
+      #s2-sub { color: rgba(255,255,255,0.62); font-size: 32px; margin-top: 14px; }
+      #s2-sub b { color: #34d399; font-weight: 700; }
+      #s2-grid { display: grid; grid-template-columns: repeat(3, 340px); gap: 28px; }
+      .loop-card {
+        border: 1px solid rgba(255,255,255,0.14); border-top-width: 5px;
+        border-radius: 16px; padding: 26px 24px; background: rgba(255,255,255,0.04);
+        text-align: left;
+      }
+      .loop-name { font-size: 34px; font-weight: 800; color: #ffffff; letter-spacing: 0.02em; }
+      .loop-verb { font-size: 24px; font-weight: 600; color: rgba(255,255,255,0.9); margin-top: 6px; }
+      .loop-outcome { font-size: 20px; color: #34d399; margin-top: 8px; line-height: 1.4; }
+
+      /* â”€â”€ Scene 3 â€” Proof â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
+      #scene3 { background: #f7faf9; }
+      #s3-wrap {
+        position: absolute; inset: 0; display: flex; flex-direction: column;
+        align-items: center; justify-content: center;
+      }
+      #s3-head { text-align: center; margin-bottom: 56px; }
+      #s3-title { color: #0f172a; font-size: 76px; font-weight: 800; letter-spacing: -0.02em; }
+      #s3-sub { color: #475569; font-size: 30px; margin-top: 14px; }
+      .proof-row {
+        display: flex; flex-direction: column; gap: 10px;
+        width: 1180px; padding: 26px 32px; margin-bottom: 22px;
+        background: #ffffff; border: 1px solid #e5e7eb; border-radius: 14px;
+        box-shadow: 0 8px 24px rgba(15,23,42,0.06);
+      }
+      .proof-claim { color: #0f172a; font-size: 40px; font-weight: 800; letter-spacing: -0.01em; }
+      .proof-sources { color: #475569; font-size: 24px; }
+      .proof-sources b { color: #0f766e; font-weight: 700; }
+
+      /* â”€â”€ Scene 4 â€” Outro â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
+      #scene4 { background: #050b0a; display: flex; align-items: center; justify-content: center; }
+      #s4-card {
+        width: 1280px; padding: 80px 64px; text-align: center; border-radius: 28px;
+        background: linear-gradient(135deg, #0f766e 0%, #052e22 100%); color: #ffffff;
+      }
+      #s4-claim { font-size: 64px; font-weight: 800; letter-spacing: -0.02em; line-height: 1.12; }
+      #s4-mark { margin-top: 48px; font-size: 56px; font-weight: 800; letter-spacing: 0.01em; }
+      #s4-tag { color: #34d399; font-size: 26px; font-weight: 700; letter-spacing: 0.18em; text-transform: uppercase; margin-top: 12px; }
+    </style>
+  </head>
+  <body>
+    <div id="root" data-composition-id="main" data-start="0" data-width="1920" data-height="1080" data-duration="18">
+
+      <!-- Scene 1 â€” Hook (0.0â€“4.0s) -->
+      <section id="scene1" class="clip" data-start="0" data-duration="4" data-track-index="0">
+        <div id="s1-glow"></div>
+        <div id="s1-veil"></div>
+        <div id="s1-wrap">
+          <div id="s1-eyebrow" class="eyebrow">The Revenue Operating System</div>
+          <h1 id="s1-h1">One engine.<br /><span class="gradient-text">Six outcomes.</span></h1>
+          <div id="s1-stats">
+            <div class="stat"><span class="stat-value">6</span><span class="stat-label">products</span></div>
+            <div class="stat"><span class="stat-value">25</span><span class="stat-label">agents</span></div>
+            <div class="stat"><span class="stat-value">6</span><span class="stat-label">outcome groups</span></div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Scene 2 â€” Engine loop (4.0â€“9.5s) -->
+      <section id="scene2" class="clip" data-start="4" data-duration="5.5" data-track-index="1">
+        <div id="s2-glow"></div>
+        <div id="s2-wrap">
+          <div id="s2-head">
+            <div id="s2-title">The operating loop</div>
+            <div id="s2-sub"><b>25 agents</b> in six outcome groups</div>
+          </div>
+          <div id="s2-grid">
+            <div class="loop-card" data-color="#7c3aed"><div class="loop-name">ORIENT</div><div class="loop-verb">Know where we are</div><div class="loop-outcome">An evidence-based picture of where you are</div></div>
+            <div class="loop-card" data-color="#2563eb"><div class="loop-name">PLAN</div><div class="loop-verb">Decide what to do</div><div class="loop-outcome">A prioritized plan the team is aligned on</div></div>
+            <div class="loop-card" data-color="#10b981"><div class="loop-name">CREATE</div><div class="loop-verb">Produce the assets</div><div class="loop-outcome">Assets that are citable, on-voice, and approved</div></div>
+            <div class="loop-card" data-color="#d97706"><div class="loop-name">SELL</div><div class="loop-verb">Move the pipeline</div><div class="loop-outcome">Pipeline that fills and closes</div></div>
+            <div class="loop-card" data-color="#0d9488"><div class="loop-name">SUSTAIN</div><div class="loop-verb">Keep and grow the book</div><div class="loop-outcome">The book kept and grown</div></div>
+            <div class="loop-card" data-color="#475569"><div class="loop-name">GOVERN</div><div class="loop-verb">Run on trustworthy numbers</div><div class="loop-outcome">Numbers the business trusts</div></div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Scene 3 â€” Proof (9.5â€“14.5s) -->
+      <section id="scene3" class="clip" data-start="9.5" data-duration="5" data-track-index="2">
+        <div id="s3-wrap">
+          <div id="s3-head">
+            <div id="s3-title">What you get</div>
+            <div id="s3-sub">Not slideware. These hold up when it matters.</div>
+          </div>
+          <div class="proof-row"><span class="proof-claim">Grounded in real research</span><span class="proof-sources"><b>Tavily</b> Â· Hacker News Â· Reddit Â· OpenAlex Â· Semantic Scholar Â· Wikipedia</span></div>
+          <div class="proof-row"><span class="proof-claim">Fact-checked before publish</span><span class="proof-sources">fabricated claims rewritten or removed</span></div>
+          <div class="proof-row"><span class="proof-claim">Every channel, one draft</span><span class="proof-sources">LinkedIn Â· YouTube Â· Substack Â· email â€” from the same checked core</span></div>
+        </div>
+      </section>
+
+      <!-- Scene 4 â€” Outro (14.5â€“18.0s) -->
+      <section id="scene4" class="clip" data-start="14.5" data-duration="3.5" data-track-index="3">
+        <div id="s4-card">
+          <div id="s4-claim">Stop building a<br />GTM machine by hand.</div>
+          <div id="s4-mark">GTM-360</div>
+          <div id="s4-tag">The Revenue Operating System</div>
+        </div>
+      </section>
+
+      <!-- Audio -->
+      <audio id="bg-music" data-start="0" data-duration="18" data-track-index="10" data-volume="0.30" src="assets/music/happy-beats-business-moves-vol-12-by-ende-dot-app.mp3"></audio>
+      <audio id="sfx-slam" data-start="1.6" data-duration="0.18" data-track-index="11" data-volume="0.65" src="assets/sfx/impact/impactSoft_medium_001.ogg"></audio>
+      <audio id="sfx-chip-1" data-start="2.8" data-duration="0.10" data-track-index="12" data-volume="0.55" src="assets/sfx/interface/click_001.ogg"></audio>
+      <audio id="sfx-chip-2" data-start="3.2" data-duration="0.10" data-track-index="12" data-volume="0.55" src="assets/sfx/interface/click_001.ogg"></audio>
+      <audio id="sfx-chip-3" data-start="3.6" data-duration="0.10" data-track-index="12" data-volume="0.55" src="assets/sfx/interface/click_001.ogg"></audio>
+      <audio id="sfx-card-1" data-start="4.9" data-duration="0.11" data-track-index="13" data-volume="0.55" src="assets/sfx/interface/drop_001.ogg"></audio>
+      <audio id="sfx-card-2" data-start="5.7" data-duration="0.11" data-track-index="13" data-volume="0.55" src="assets/sfx/interface/drop_001.ogg"></audio>
+      <audio id="sfx-card-3" data-start="6.5" data-duration="0.11" data-track-index="13" data-volume="0.55" src="assets/sfx/interface/drop_001.ogg"></audio>
+      <audio id="sfx-card-4" data-start="7.3" data-duration="0.11" data-track-index="13" data-volume="0.55" src="assets/sfx/interface/drop_001.ogg"></audio>
+      <audio id="sfx-card-5" data-start="8.1" data-duration="0.11" data-track-index="13" data-volume="0.55" src="assets/sfx/interface/drop_001.ogg"></audio>
+      <audio id="sfx-card-6" data-start="8.9" data-duration="0.11" data-track-index="13" data-volume="0.55" src="assets/sfx/interface/drop_001.ogg"></audio>
+      <audio id="sfx-proof-1" data-start="10.0" data-duration="0.11" data-track-index="14" data-volume="0.5" src="assets/sfx/interface/drop_001.ogg"></audio>
+      <audio id="sfx-proof-2" data-start="11.1" data-duration="0.11" data-track-index="14" data-volume="0.5" src="assets/sfx/interface/drop_001.ogg"></audio>
+      <audio id="sfx-proof-3" data-start="12.2" data-duration="0.11" data-track-index="14" data-volume="0.5" src="assets/sfx/interface/drop_001.ogg"></audio>
+      <audio id="sfx-bell" data-start="17.3" data-duration="1.48" data-track-index="15" data-volume="0.7" src="assets/sfx/impact/impactBell_heavy_000.ogg"></audio>
+    </div>
+
+    <script>
+      const tl = gsap.timeline({ paused: true });
+
+      /* â”€â”€ Scene 1 â€” Hook â”€â”€ */
+      tl.fromTo('#s1-glow', { opacity: 0.3 }, { opacity: 1, duration: 2, ease: 'sine.out' }, 0);
+      tl.fromTo('#s1-eyebrow', { y: 26, opacity: 0 }, { y: 0, opacity: 1, duration: 0.6, ease: 'power3.out' }, 0.3);
+      tl.fromTo('#s1-h1', { y: 56, opacity: 0 }, { y: 0, opacity: 1, duration: 0.5, ease: 'power3.out' }, 1.0);
+      tl.fromTo('.stat', { y: 24, opacity: 0 }, { y: 0, opacity: 1, duration: 0.32, ease: 'power2.out', stagger: 0.4 }, 2.8);
+
+      /* â”€â”€ Scene 2 â€” Engine loop â”€â”€ */
+      tl.fromTo('#s2-head', { y: 30, opacity: 0 }, { y: 0, opacity: 1, duration: 0.6, ease: 'power3.out' }, 4.2);
+      tl.fromTo('.loop-card', { y: 44, opacity: 0, scale: 0.96 }, { y: 0, opacity: 1, scale: 1, duration: 0.42, ease: 'power2.out', stagger: 0.8 }, 4.9);
+
+      /* â”€â”€ Scene 3 â€” Proof â”€â”€ */
+      tl.fromTo('#s3-head', { y: 30, opacity: 0 }, { y: 0, opacity: 1, duration: 0.6, ease: 'power3.out' }, 9.8);
+      tl.fromTo('.proof-row', { y: 36, opacity: 0 }, { y: 0, opacity: 1, duration: 0.45, ease: 'power2.out', stagger: 1.1 }, 10.0);
+
+      /* â”€â”€ Scene 4 â€” Outro â”€â”€ */
+      tl.fromTo('#s4-card', { scale: 0.94, opacity: 0 }, { scale: 1, opacity: 1, duration: 0.7, ease: 'power3.out' }, 14.7);
+      tl.fromTo('#s4-claim', { y: 22, opacity: 0 }, { y: 0, opacity: 1, duration: 0.5, ease: 'power3.out' }, 15.2);
+      tl.fromTo('#s4-mark', { scale: 1.08, opacity: 0 }, { scale: 1, opacity: 1, duration: 0.5, ease: 'power2.out' }, 17.3);
+      tl.fromTo('#s4-tag', { opacity: 0 }, { opacity: 1, duration: 0.6, ease: 'sine.out' }, 17.5);
+
+      window.__timelines['main'] = tl;
+      tl.seek(0);
+    </script>
+  </body>
+</html>

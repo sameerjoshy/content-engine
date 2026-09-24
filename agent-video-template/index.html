@@ -1,0 +1,170 @@
+<!doctype html>
+<html lang="en"
+  data-composition-variables='[
+    {"id":"agentName","type":"string","label":"Agent name","default":"SEO Analyzer"},
+    {"id":"agentRole","type":"string","label":"Agent role","default":"Search visibility & AEO audit"},
+    {"id":"agentVibe","type":"string","label":"One-line vibe","default":"Be the answer when the question matters."},
+    {"id":"engineName","type":"string","label":"Engine name","default":"Marketing"},
+    {"id":"engineColor","type":"color","label":"Engine color","default":"#10b981"},
+    {"id":"engineJourney","type":"string","label":"Journey label","default":"The Attract journey"},
+    {"id":"engineClaim","type":"string","label":"Engine claim","default":"Citable content, SEO, and account-level positioning that make you the obvious choice."},
+    {"id":"takesLine","type":"string","label":"What it needs","default":"A topic cluster, your domain, and your competitors"},
+    {"id":"givesLine","type":"string","label":"What you get","default":"A query map, an AEO score, and a prioritized fix plan"},
+    {"id":"honestyLine","type":"string","label":"Close line","default":"Show up where it matters most."}
+  ]'>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=1920, height=1080" />
+    <script src="https://cdn.jsdelivr.net/npm/gsap@3.14.2/dist/gsap.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/gsap@3.14.2/dist/TextPlugin.min.js"></script>
+    <style>
+      * { margin: 0; padding: 0; box-sizing: border-box; }
+      html, body { width: 1920px; height: 1080px; overflow: hidden; background: #050b0a; }
+      #root { position: relative; width: 1920px; height: 1080px; overflow: hidden; }
+      .clip { position: absolute; inset: 0; overflow: hidden; }
+
+      #bg { position: absolute; inset: 0; }
+      #glow {
+        position: absolute; inset: 0;
+        background:
+          radial-gradient(1000px 560px at 50% 30%, rgba(16, 185, 129, 0.20), transparent 62%),
+          radial-gradient(760px 460px at 82% 70%, rgba(14, 165, 233, 0.10), transparent 60%);
+      }
+
+      .gradient-text {
+        background: linear-gradient(90deg, #34d399 0%, #2dd4bf 100%);
+        -webkit-background-clip: text; background-clip: text; color: transparent;
+      }
+      .eyebrow { color: #34d399; font-size: 26px; font-weight: 700; letter-spacing: 0.24em; text-transform: uppercase; }
+      .h1 { color: #ffffff; font-size: 74px; font-weight: 800; letter-spacing: -0.03em; line-height: 1.1; }
+      .sub { color: rgba(255,255,255,0.72); font-size: 28px; line-height: 1.5; font-weight: 400; }
+
+      /* ---- Brand bookend (opens every agent video identically) ---- */
+      #brand { position: absolute; inset: 0; display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center; }
+      #brand-glow {
+        position: absolute;
+        width: 560px; height: 560px;
+        background: radial-gradient(circle, rgba(16,185,129,0.30) 0%, transparent 62%);
+        border-radius: 50%;
+      }
+      #brand-mark { position: relative; width: 200px; height: 200px; }
+      #brand-name { margin-top: 26px; font-size: 68px; font-weight: 800; color: #ffffff; letter-spacing: 0.02em; }
+      #brand-tag { margin-top: 12px; color: #34d399; font-size: 27px; font-weight: 700; letter-spacing: 0.24em; text-transform: uppercase; }
+
+      /* Scene 2 — Hook: who this agent is, in one line */
+      #s2 { position: absolute; inset: 0; display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center; padding: 0 140px; }
+      #s2-name { font-size: 44px; font-weight: 800; color: var(--engineColor, #10b981); letter-spacing: 0.06em; text-transform: uppercase; }
+      #s2-vibe { margin-top: 28px; font-size: 44px; color: #ffffff; font-weight: 700; line-height: 1.3; }
+
+      /* Scene 3 — the one job (takes → gives) */
+      #s3 { position: absolute; inset: 0; display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center; }
+      #s3-job { margin-top: 40px; width: 1400px; display: flex; flex-direction: column; gap: 22px; }
+      .s3-row { display: flex; align-items: center; gap: 24px; background: rgba(255,255,255,0.04); border: 1px solid rgba(255,255,255,0.12); border-radius: 14px; padding: 26px 32px; }
+      .s3-row .tag { font-size: 20px; font-weight: 800; color: var(--engineColor, #10b981); text-transform: uppercase; letter-spacing: 0.08em; width: 180px; text-align: left; flex: none; }
+      .s3-row .body { font-size: 30px; color: rgba(255,255,255,0.85); text-align: left; }
+
+      /* Scene 4 — engine context */
+      #s4 { position: absolute; inset: 0; display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center; padding: 0 160px; }
+      #s4-engine { font-size: 30px; font-weight: 800; color: var(--engineColor, #10b981); text-transform: uppercase; letter-spacing: 0.14em; }
+      #s4-journey { margin-top: 16px; color: rgba(255,255,255,0.5); font-size: 24px; }
+      #s4-claim { margin-top: 32px; font-size: 40px; color: #ffffff; font-weight: 700; line-height: 1.3; }
+
+      /* Scene 5 — the close */
+      #s5 { position: absolute; inset: 0; display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center; background: #050b0a; }
+      #s5-honesty { font-size: 52px; font-weight: 800; color: #ffffff; line-height: 1.25; }
+      #s5-sub { margin-top: 20px; color: rgba(255,255,255,0.66); font-size: 26px; }
+      #s5-mark { margin-top: 40px; color: #34d399; font-size: 28px; font-weight: 700; letter-spacing: 0.2em; text-transform: uppercase; }
+    </style>
+  </head>
+  <body>
+    <div id="root" data-composition-id="main" data-start="0" data-width="1920" data-height="1080" data-duration="24">
+
+      <div id="bg" class="clip" data-start="0" data-duration="24" data-track-index="0">
+        <div id="glow"></div>
+      </div>
+
+      <!-- Scene 1 — Brand bookend: GTM-360 · The Revenue Operating System -->
+      <div id="brand" class="clip" data-start="0" data-duration="5.5" data-track-index="1">
+        <div id="brand-glow"></div>
+        <img id="brand-mark" src="assets/gtm360-mark.png" alt="GTM-360" />
+        <div id="brand-name">GTM-360</div>
+        <div id="brand-tag">The Revenue Operating System</div>
+      </div>
+
+      <!-- Scene 2 — Hook: who this agent is, in one line -->
+      <div id="s2" class="clip" data-start="5.5" data-duration="5.5" data-track-index="2">
+        <div class="eyebrow">GTM-360 · The Revenue Operating System</div>
+        <div id="s2-name" data-var-text="agentName">SEO Analyzer</div>
+        <div id="s2-vibe" data-var-text="agentVibe">Be the answer when the question matters.</div>
+      </div>
+
+      <!-- Scene 3 — the one job: takes → gives -->
+      <div id="s3" class="clip" data-start="11.0" data-duration="6.0" data-track-index="3">
+        <div class="eyebrow">The one job</div>
+        <div id="s3-job">
+          <div class="s3-row"><span class="tag">We analyze</span><span class="body" data-var-text="takesLine">A topic cluster, your domain, and your competitors</span></div>
+          <div class="s3-row"><span class="tag">You get</span><span class="body" data-var-text="givesLine">A query map, an AEO score, and a prioritized fix plan</span></div>
+        </div>
+      </div>
+
+      <!-- Scene 4 — engine context -->
+      <div id="s4" class="clip" data-start="17.0" data-duration="4.0" data-track-index="4">
+        <div id="s4-engine" data-var-text="engineName">Marketing</div>
+        <div id="s4-journey" data-var-text="engineJourney">The Attract journey</div>
+        <div id="s4-claim" data-var-text="engineClaim">Citable content, SEO, and account-level positioning that make you the obvious choice.</div>
+      </div>
+
+      <!-- Scene 5 — the close -->
+      <div id="s5" class="clip" data-start="21.0" data-duration="3.0" data-track-index="5">
+        <div id="s5-honesty" data-var-text="honestyLine">Show up where it matters most.</div>
+        <div id="s5-sub" data-var-text="agentRole">Search visibility &amp; AEO audit</div>
+        <div id="s5-mark">GTM-360 · We build your revenue system. Then it keeps running.</div>
+      </div>
+
+      <!-- Audio -->
+      <audio id="bg-music" data-start="0" data-duration="24" data-track-index="10" data-volume="0.30" src="assets/music/happy-beats-business-moves-vol-12-by-ende-dot-app.mp3"></audio>
+      <audio id="sfx-brand" data-start="0.6" data-duration="0.18" data-track-index="11" data-volume="0.6" src="assets/sfx/impact/impactSoft_medium_001.ogg"></audio>
+      <audio id="sfx-hook" data-start="5.7" data-duration="0.12" data-track-index="11" data-volume="0.5" src="assets/sfx/interface/drop_001.ogg"></audio>
+      <audio id="sfx-takes" data-start="11.3" data-duration="0.11" data-track-index="12" data-volume="0.5" src="assets/sfx/interface/drop_001.ogg"></audio>
+      <audio id="sfx-gives" data-start="13.2" data-duration="0.11" data-track-index="12" data-volume="0.5" src="assets/sfx/interface/drop_001.ogg"></audio>
+      <audio id="sfx-engine" data-start="17.2" data-duration="0.11" data-track-index="12" data-volume="0.5" src="assets/sfx/interface/click_001.ogg"></audio>
+      <audio id="sfx-bell" data-start="22.0" data-duration="1.48" data-track-index="13" data-volume="0.7" src="assets/sfx/impact/impactBell_heavy_000.ogg"></audio>
+    </div>
+
+    <script>
+      gsap.registerPlugin(TextPlugin);
+      const tl = gsap.timeline({ paused: true });
+      const { engineColor } = window.__hyperframes.getVariables();
+
+      /* Scene 1 — brand bookend */
+      tl.fromTo('#glow', { opacity: 0.35 }, { opacity: 1, duration: 2.0, ease: 'sine.out' }, 0);
+      tl.fromTo('#brand-glow', { scale: 0.7, opacity: 0 }, { scale: 1, opacity: 1, duration: 0.7, ease: 'power3.out' }, 0.2);
+      tl.fromTo('#brand-mark', { scale: 0.8, opacity: 0 }, { scale: 1, opacity: 1, duration: 0.6, ease: 'power3.out' }, 0.4);
+      tl.fromTo('#brand-name', { y: 18, opacity: 0 }, { y: 0, opacity: 1, duration: 0.5, ease: 'power3.out' }, 1.1);
+      tl.fromTo('#brand-tag', { opacity: 0 }, { opacity: 1, duration: 0.5, ease: 'sine.out' }, 1.7);
+
+      /* Scene 2 — hook */
+      tl.fromTo('#s2 .eyebrow', { y: 16, opacity: 0 }, { y: 0, opacity: 1, duration: 0.5, ease: 'power3.out' }, 5.6);
+      tl.fromTo('#s2-name', { y: 26, opacity: 0 }, { y: 0, opacity: 1, duration: 0.6, ease: 'power3.out' }, 6.2);
+      tl.fromTo('#s2-vibe', { y: 24, opacity: 0 }, { y: 0, opacity: 1, duration: 0.6, ease: 'power3.out' }, 7.2);
+
+      /* Scene 3 — takes → gives */
+      tl.fromTo('#s3 .eyebrow', { y: 16, opacity: 0 }, { y: 0, opacity: 1, duration: 0.5, ease: 'power3.out' }, 11.1);
+      tl.fromTo('.s3-row:nth-child(1)', { x: -28, opacity: 0 }, { x: 0, opacity: 1, duration: 0.6, ease: 'power3.out' }, 11.7);
+      tl.fromTo('.s3-row:nth-child(2)', { x: 28, opacity: 0 }, { x: 0, opacity: 1, duration: 0.6, ease: 'power3.out' }, 13.2);
+
+      /* Scene 4 — engine */
+      tl.fromTo('#s4-engine', { y: 16, opacity: 0 }, { y: 0, opacity: 1, duration: 0.5, ease: 'power3.out' }, 17.2);
+      tl.fromTo('#s4-journey', { opacity: 0 }, { opacity: 1, duration: 0.5, ease: 'sine.out' }, 17.9);
+      tl.fromTo('#s4-claim', { y: 20, opacity: 0 }, { y: 0, opacity: 1, duration: 0.6, ease: 'power3.out' }, 18.6);
+
+      /* Scene 5 — close */
+      tl.fromTo('#s5-honesty', { y: 24, opacity: 0 }, { y: 0, opacity: 1, duration: 0.6, ease: 'power3.out' }, 21.2);
+      tl.fromTo('#s5-sub', { opacity: 0 }, { opacity: 1, duration: 0.5, ease: 'sine.out' }, 21.9);
+      tl.fromTo('#s5-mark', { scale: 1.05, opacity: 0 }, { scale: 1, opacity: 1, duration: 0.6, ease: 'power2.out' }, 22.5);
+
+      window.__timelines['main'] = tl;
+      tl.seek(0);
+    </script>
+  </body>
+</html>

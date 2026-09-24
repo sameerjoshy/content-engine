@@ -1,0 +1,100 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <script>
+      // content.gtm-360.com is the Content Engine — consolidate onto its app path.
+      if (location.hostname === 'content.gtm-360.com') {
+        location.replace('https://apps.gtm-360.com/content-engine' + location.pathname + location.search + location.hash);
+      }
+    </script>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Agent Portal — AI Content Production for GTM Teams</title>
+    <script>
+      // The Content Engine (apps.gtm-360.com/content-engine) and the Agent Portal
+      // (agents.gtm-360.com) share this build. Brand the tab by host.
+      (function () {
+        if (location.hostname !== 'agents.gtm-360.com') {
+          document.title = 'Content Engine — GTM-360';
+        }
+      })();
+    </script>
+    <meta name="description" content="Agent Portal turns a topic into a citable, fact-checked article in your brand voice — grounded in real research, then distributed to LinkedIn, YouTube, and Substack. An outcome-driven AI agent engine for go-to-market teams." />
+    <meta name="robots" content="index, follow" />
+    <link rel="canonical" href="https://agents.gtm-360.com/" />
+    <meta name="theme-color" content="#10b981" />
+    <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='7' fill='%2310b981'/%3E%3Ctext x='16' y='22' font-family='Arial' font-size='13' font-weight='bold' fill='white' text-anchor='middle'%3ECE%3C/text%3E%3C/svg%3E" />
+    <meta property="og:type" content="website" />
+    <meta property="og:site_name" content="Agent Portal" />
+    <meta property="og:title" content="Agent Portal — AI Content Production for GTM Teams" />
+    <meta property="og:description" content="Turn a topic into a citable, fact-checked article in your brand voice — grounded in real research, then distributed to LinkedIn, YouTube, and Substack." />
+    <meta property="og:url" content="https://agents.gtm-360.com/" />
+    <meta name="twitter:card" content="summary" />
+    <meta name="twitter:title" content="Agent Portal — AI Content Production for GTM Teams" />
+    <meta name="twitter:description" content="Turn a topic into a citable, fact-checked article in your brand voice — grounded in real research, then distributed to every channel." />
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "SoftwareApplication",
+      "name": "Agent Portal",
+      "applicationCategory": "BusinessApplication",
+      "operatingSystem": "Web",
+      "url": "https://agents.gtm-360.com/",
+      "description": "Outcome-driven AI agent engine that turns a topic into a citable, fact-checked article in your brand voice and distributes it to LinkedIn, YouTube, and Substack.",
+      "offers": { "@type": "Offer", "price": "0", "priceCurrency": "USD" },
+      "publisher": { "@type": "Organization", "name": "GTM-360", "url": "https://gtm-360.com" },
+      "featureList": "AI research, fact-checking, brand voice, proof requirements, multi-channel distribution"
+    }
+    </script>
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "WebSite",
+      "name": "Agent Portal",
+      "url": "https://agents.gtm-360.com/"
+    }
+    </script>
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "FAQPage",
+      "mainEntity": [
+        {
+          "@type": "Question",
+          "name": "What is Agent Portal?",
+          "acceptedAnswer": { "@type": "Answer", "text": "Agent Portal is an AI agent engine for go-to-market teams. It turns a topic and angle into a publishable article that is grounded in real research, fact-checked against sourced evidence, written in your brand voice, and distributed to LinkedIn, YouTube, and Substack." }
+        },
+        {
+          "@type": "Question",
+          "name": "How does Agent Portal fact-check articles?",
+          "acceptedAnswer": { "@type": "Answer", "text": "Every verifiable claim in a draft is checked against an evidence table built during research. Fabricated claims are rewritten or removed, and only brand analysis is kept without a source. A proof-coverage gate confirms the required mix of named examples, expert quotes, and statistics." }
+        },
+        {
+          "@type": "Question",
+          "name": "Which content formats can Agent Portal produce?",
+          "acceptedAnswer": { "@type": "Answer", "text": "Agent Portal produces structured articles, how-to guides that teach one move deeply, and best-practice maps of what competitors are doing — plus LinkedIn, YouTube, Substack, and email variants from the same fact-checked core." }
+        },
+        {
+          "@type": "Question",
+          "name": "Is Agent Portal free to use?",
+          "acceptedAnswer": { "@type": "Answer", "text": "Yes. Agent Portal is currently free to use. Each article run costs roughly a dollar in AI inference, and the full run completes in about a minute of AI time." }
+        },
+        {
+          "@type": "Question",
+          "name": "How is Agent Portal different from writing with ChatGPT?",
+          "acceptedAnswer": { "@type": "Answer", "text": "ChatGPT generates from memory. Agent Portal grounds every claim in research it actually performed, fact-checks the result against that evidence, encodes your brand voice and proof requirements, and distributes the approved piece to your channels — no invented statistics." }
+        },
+        {
+          "@type": "Question",
+          "name": "Which channels can I publish to from Agent Portal?",
+          "acceptedAnswer": { "@type": "Answer", "text": "LinkedIn posts, full YouTube scripts with screen cues, Substack editions, and email newsletters — each generated from the same fact-checked draft so no variant can introduce new claims." }
+        }
+      ]
+    }
+    </script>
+  </head>
+  <body>
+    <div id="root"></div>
+    <script type="module" src="/src/main.tsx"></script>
+  </body>
+</html>

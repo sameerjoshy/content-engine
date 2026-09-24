@@ -1,0 +1,24 @@
+# Content Engine
+
+> Content Engine is an AI content production platform for go-to-market teams. It turns a topic and angle into a publishable article that is grounded in real research, fact-checked against sourced evidence, written in your brand voice, and distributed to LinkedIn, YouTube, and Substack. It runs an outcome-driven agent engine organized into six groups: ORIENT, PLAN, CREATE, SELL, SUSTAIN, and GOVERN.
+
+## About
+
+- What: An AI agent engine that produces citable, fact-checked, on-voice content and distributes it across channels.
+- Who: GTM-360, the revenue operating system. Content Engine is one product in the ecosystem alongside Compass (OKRs), Cockpit (execution), and Crew (agents).
+- Formats: structured articles, how-to guides that teach one move deeply, and best-practice maps of the competitive landscape.
+- Proof model: every verifiable claim is grounded in research evidence; required proof types (named examples, expert quotes, statistics) are enforced by the editor.
+
+## Sections
+
+- [Home](https://content.gtm-360.com/): product landing, how it works, and FAQ.
+- [How it works](https://content.gtm-360.com/#how): the outcome-driven agent engine and its data layer.
+- [Privacy Policy](https://content.gtm-360.com/privacy): what we collect and how we use it.
+- [Terms of Service](https://content.gtm-360.com/terms): terms for using the service.
+- [Sign in](https://content.gtm-360.com/login): sign in with Google or email.
+
+## Key facts
+
+- Free to use; a full article run costs roughly $1 in AI inference and completes in about a minute of AI time.
+- Researched sources: web search (Tavily), OpenAlex, Semantic Scholar, Wikipedia, and Hacker News.
+- Supported channels for distribution: LinkedIn, YouTube, Substack, and email newsletters.

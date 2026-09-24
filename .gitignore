@@ -1,0 +1,16 @@
+node_modules/
+dist/
+dist-dry/
+.wrangler/
+.dev.vars
+*.local
+.DS_Store
+.env
+.env.local
+.env.*.local
+exports/
+*.md.tmp
+*.log
+*.pid
+.tmp/
+.env.production
