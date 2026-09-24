@@ -14,3 +14,4 @@ exports/
 *.pid
 .tmp/
 .env.production
+*.tsbuildinfo
